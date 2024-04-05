@@ -1,0 +1,13 @@
+query GetGyms {
+  getGyms {
+    id
+    name
+    ownerid
+    title
+    postition
+    image
+    rate
+    pending
+    thumbnail
+  }
+}

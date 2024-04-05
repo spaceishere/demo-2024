@@ -1,0 +1,17 @@
+overwrite: true
+schema: 'https://2024-demo-backend-3tq4.vercel.app/api/graphql'
+
+documents: './graphql/**/*.graphql'
+
+generates:
+  graphql/generated/index.ts:
+    config:
+      reactApolloVersion: 3
+      withHOC: true
+      withHooks: true
+    plugins:
+      - add:
+          content: '// @ts-nocheck'
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'

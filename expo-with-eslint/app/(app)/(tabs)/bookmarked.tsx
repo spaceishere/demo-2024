@@ -1,15 +1,29 @@
 import React from 'react';
-import { FlatList, Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import MapView from 'react-native-maps';
+import { GetGymsQuery, Gym, useGetGymsQuery } from '@/graphql/generated';
+import {
+  FlatList,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { useBookmarks } from '../../zustand/useBookmarks';
 import { useRouter } from 'expo-router';
-import { useBookmarks } from '../zustand/useBookmarks';
-import { Gym, useGetGymsQuery } from '@/graphql/generated';
 
-export default function Gyms() {
+export default function App() {
   const { data: gyms } = useGetGymsQuery();
   const router = useRouter();
+  const items = useBookmarks((state) => state.items);
+  const SavedId = items.map((e) => e.id);
+  const filteredId = gyms?.getGyms.filter((e: any) => SavedId.includes(e.id));
   const { bookmark, isBookmarked } = useBookmarks();
 
-  if (!gyms) {
+  console.log(filteredId?.length);
+
+  if (filteredId?.length === 0) {
     return (
       <View
         style={{
@@ -19,18 +33,17 @@ export default function Gyms() {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Text>loading...!</Text>
+        <Text>You dont have saved gym</Text>
       </View>
     );
   }
-
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <FlatList
-        data={gyms?.getGyms as Gym[]}
-        keyExtractor={(item) => item.id.toString()}
+        data={filteredId}
+        keyExtractor={(item: Gym) => item.id.toString()}
         renderItem={({ item }) => {
-          const isAdded: any = isBookmarked(item.id);
+          const isAdded = isBookmarked(item.id);
           return (
             <TouchableOpacity
               onPress={() =>
@@ -43,12 +56,12 @@ export default function Gyms() {
               <Image style={styles.image} source={{ uri: item?.image[0] }} />
               <View style={styles.textContainer}>
                 <Text style={styles.gymName}>{item.name}</Text>
-                <Text style={styles.itemText}>{item.name.slice(0, 150)}</Text>
+                <Text style={styles.itemText}>{item.title.slice(0, 150)}</Text>
                 <TouchableOpacity onPress={() => bookmark(item.id)} style={styles.addButton}>
                   {isAdded ? (
                     <Text style={styles.addButtonText}>Remove</Text>
                   ) : (
-                    <Text style={styles.addButtonText}>+ Add list</Text>
+                    <Text style={styles.addButtonText}>+ My List</Text>
                   )}
                 </TouchableOpacity>
               </View>
@@ -56,13 +69,14 @@ export default function Gyms() {
           );
         }}
       />
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
   },
   itemContainer: {
     flexDirection: 'row',
@@ -96,7 +110,7 @@ const styles = StyleSheet.create({
   addButton: {
     borderWidth: 1,
     height: 30,
-    width: 100,
+    paddingHorizontal: 30,
     justifyContent: 'center',
     marginTop: 10,
     alignItems: 'center',

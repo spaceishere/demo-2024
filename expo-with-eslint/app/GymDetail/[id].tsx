@@ -1,15 +1,20 @@
 import { Image, ImageBackground, Text, View, StyleSheet, FlatList, ScrollView } from 'react-native';
-import { gyms } from '@/data/Client'; // Ensure the path is correct
 import { useGlobalSearchParams } from 'expo-router';
 import MapView, { Marker } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Gym, useGetGymsQuery } from '@/graphql/generated';
 
 export default function GymDetail() {
+  const { data: gyms } = useGetGymsQuery();
   const { id } = useGlobalSearchParams(); // Verify that 'id' is correctly retrieved
-  const data = gyms.find((gym) => gym.id === id);
 
-  // It's a good practice to handle the case where 'data' might be undefined
-  if (!data) {
+  const data = gyms?.getGyms.find((gym: any) => gym.id === id);
+
+  const xValue = Number(data?.postition[0]);
+  const yValue = Number(data?.postition[1]);
+  console.log(data);
+
+  if (!gyms) {
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Gym not found</Text>
@@ -21,13 +26,13 @@ export default function GymDetail() {
     <ScrollView>
       <View style={{ display: 'flex', gap: 10 }}>
         <ImageBackground
-          source={{ uri: data.thumbnail }}
+          source={{ uri: data?.thumbnail }}
           resizeMode="cover"
           style={styles.imageBackground}>
           <Text style={styles.headerText}>hello kings</Text>
         </ImageBackground>
         <FlatList
-          data={data.images}
+          data={data?.image}
           keyExtractor={(item, index) => index.toString()}
           horizontal={true}
           renderItem={({ item }) => (
@@ -41,22 +46,22 @@ export default function GymDetail() {
           <MapView
             style={styles.map}
             initialRegion={{
-              latitude: data.location.x || 0,
-              longitude: data.location.y || 0,
+              latitude: xValue || 0,
+              longitude: yValue || 0,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }}>
             <Marker
               image={require('../../assets/images/pin.png')} // Ensure the path to the image is correct
               coordinate={{
-                latitude: data.location.x || 0,
-                longitude: data.location.y || 0,
+                latitude: xValue || 0,
+                longitude: yValue || 0,
               }}
-              title={data.name} // Changed from "lol" to use gym name
+              title={data?.name} // Changed from "lol" to use gym name
             />
           </MapView>
-          <Text style={styles.footerTitle}>{data.name} </Text>
-          <Text style={styles.footerText}>{data.title}</Text>
+          <Text style={styles.footerTitle}>{data?.name} </Text>
+          <Text style={styles.footerText}>{data?.title}</Text>
         </View>
       </View>
     </ScrollView>
@@ -106,7 +111,7 @@ const styles = StyleSheet.create({
     fontSize: 20, // Adds a specific font size for consistency
   },
   map: {
-    width: '80%',
+    width: '100%',
     height: 250, // Adjusted for better visibility
   },
 });

@@ -1,85 +1,82 @@
 import { Link, useRouter } from 'expo-router';
-import React, { JSXElementConstructor, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import { useLoginUserMutation } from '@/graphql/generated';
+import { useClientStore } from './zustand/setClinet';
 import { useClientWelcomed } from './zustand/welcomedUser';
 
-export default function loginClient() {
-  const router = useRouter();
+export default function LoginClient() {
+  const { setUser, setToken } = useClientStore();
   const change = useClientWelcomed((state) => state.change);
-  const data = {
-    email: '123',
-    username: '123',
-    password: '123',
-  };
-
-  const [username, SetUserName] = useState('');
+  const router = useRouter();
+  const [loginUser, { data, loading, error }] = useLoginUserMutation();
   const [email, SetEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confpassword, setConfirmPassword] = useState('');
 
-  const handleRegister = () => {
-    router.replace('/signUpClient');
-  };
-
-  const handleSignUp = () => {
-    if (email.length === 0) return Alert.alert(`email field is empty`);
-    if (password.length === 0) return Alert.alert(`password field is empty`);
-    if (username.length === 0) return Alert.alert(`name field is empty`);
-
-    if (data.email === email) {
-      if (data.username === username) {
-        if (data.password === password) {
-          change();
-          router.replace('/(tabs)/Defualt');
-          Alert.alert(`login succes`);
-        } else {
-          Alert.alert(`email , username or password is mistake`);
-        }
-      } else {
-        Alert.alert(`email , username or password is mistake`);
-      }
-    } else {
-      Alert.alert(`email , username or password is mistake`);
+  const handleSignIn = () => {
+    loginUser({
+      variables: {
+        input: {
+          password: password,
+          email: email,
+        },
+      },
+    });
+    if (data && data.loginUser) {
+      let user = {
+        name: data.loginUser.user.name,
+        email: data.loginUser.user.email,
+        id: data.loginUser.user.id,
+        image: data.loginUser.user.image as string,
+      };
+      const token = data.loginUser.token;
+      setUser(user);
+      setToken(token);
+      change();
+      alert('succes');
+      router.push('/(app)/(tabs)');
     }
   };
 
+  if (loading) {
+    return (
+      <View
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Text>Loading</Text>
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
         <Text style={styles.header}>Login</Text>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Enter your username"
-          onChangeText={(newText) => SetUserName(newText)}
-          placeholderTextColor="black"
-        />
-        <TextInput
-          style={styles.textInput}
-          placeholder="example@gmai.com"
-          onChangeText={(newText) => SetEmail(newText)}
-          placeholderTextColor="black"
-        />
-        <TextInput
-          style={styles.textInput}
-          placeholder="password"
-          onChangeText={(newText) => setPassword(newText)}
-          placeholderTextColor="black"
-        />
-        <TextInput
-          style={styles.textInput}
-          placeholder="confirm password"
-          onChangeText={(newText) => setConfirmPassword(newText)}
-          placeholderTextColor="black"
-        />
-        <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-          <Text style={styles.buttonText}>Press Here</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleRegister}>
-          <Text>push sign in</Text>
-        </TouchableOpacity>
+        <View style={{ width: '100%', alignItems: 'center', display: 'flex', gap: 15 }}>
+          <TextInput
+            style={styles.textInput}
+            placeholder="example@gmai.com"
+            onChangeText={(newText) => SetEmail(newText)}
+            placeholderTextColor="black"
+          />
+          <TextInput
+            style={styles.textInput}
+            placeholder="password"
+            onChangeText={(newText) => setPassword(newText)}
+            placeholderTextColor="black"
+          />
+          <TouchableOpacity style={styles.button} onPress={handleSignIn}>
+            <Text style={styles.buttonText}>Press Here</Text>
+          </TouchableOpacity>
+          <Link href="/SignUpClient">
+            <Text>new user?</Text>
+          </Link>
+        </View>
       </View>
     </View>
   );
@@ -96,7 +93,7 @@ const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 5,
+    gap: 3,
   },
   header: {
     fontSize: 50,
@@ -110,8 +107,6 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     borderRadius: 10,
-    marginBottom: 20,
-    // Added to create space between inputs
   },
   button: {
     alignItems: 'center',

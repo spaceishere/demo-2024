@@ -1,38 +1,29 @@
 import { router } from 'expo-router';
+import { useSignUp } from '@clerk/clerk-expo';
+import { Link, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
-
+import { useRegisterUserMutation } from '@/graphql/generated';
 export default function SignUpClient() {
-  const data = {
-    email: '123',
-    username: '123',
-    password: '123',
-  };
-
   const [username, SetUserName] = useState('');
   const [email, SetEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confpassword, setConfirmPassword] = useState('');
+  const [registerUser, { data, loading, error }] = useRegisterUserMutation();
 
   const handleSignUp = () => {
-    if (email.length === 0) return Alert.alert(`email field is empty`);
-    if (password.length === 0) return Alert.alert(`password field is empty`);
-    if (username.length === 0) return Alert.alert(`name field is empty`);
-
-    if (data.email === email) {
-      if (data.username === username) {
-        if (data.password === password) {
-          Alert.alert(`login succes`);
-          router.replace('/(tabs)');
-        } else {
-          Alert.alert(`email , username or password is mistake`);
-        }
-      } else {
-        Alert.alert(`email , username or password is mistake`);
-      }
-    } else {
-      Alert.alert(`email , username or password is mistake`);
-    }
+    registerUser({
+      variables: {
+        input: {
+          email: email,
+          image: 'https://i.pinimg.com/564x/8b/a5/ed/8ba5ed31934f2e6d448e82ef8a1cfb66.jpg',
+          name: username,
+          password: password,
+        },
+      },
+    });
+    alert('user created');
+    router.push('/LoginClient');
   };
 
   return (
@@ -65,9 +56,6 @@ export default function SignUpClient() {
         />
         <TouchableOpacity style={styles.button} onPress={handleSignUp}>
           <Text style={styles.buttonText}>Press Here</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text>push sign in</Text>
         </TouchableOpacity>
       </View>
     </View>

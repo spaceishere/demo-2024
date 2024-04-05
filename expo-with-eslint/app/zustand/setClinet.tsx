@@ -1,17 +1,28 @@
 import { create } from 'zustand';
 
-type ClientStore = {
+type User = {
+  email: string;
+  id: string;
   name: string;
-  change: () => void;
-  changeBack: () => void;
+  image: string;
+};
+
+type ClientStore = {
+  user: User | {};
+  token: string | null;
+  setUser: (newUser: User) => void;
+  setToken: (token: string) => void;
 };
 
 export const useClientStore = create<ClientStore>((set) => ({
-  name: 'marco',
-  change: () => {
-    set({ name: 'changed marcooooo' });
+  user: {},
+  token: null,
+
+  setUser: (newUser) => {
+    set({ user: newUser });
   },
-  changeBack: () => {
-    set({ name: 'marcoooo' });
+
+  setToken: (token) => {
+    set({ token });
   },
 }));

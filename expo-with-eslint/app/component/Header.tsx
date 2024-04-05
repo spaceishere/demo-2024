@@ -1,8 +1,14 @@
-import { Text, View } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import { Image, Text, View } from 'react-native';
 import { Link } from 'expo-router';
-
+import { useClientWelcomed } from '../zustand/welcomedUser';
+import { useClientStore } from '../zustand/setClinet';
+import { MaterialIcons } from '@expo/vector-icons';
 export default function Header() {
+  const user = useClientStore((state) => state.user);
+  const welcomed = useClientWelcomed((state) => state.welcomed);
+  if (!welcomed) {
+    return <></>;
+  }
   return (
     <View
       style={{
@@ -14,11 +20,11 @@ export default function Header() {
         paddingHorizontal: 20,
         marginTop: 40,
       }}>
-      <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-        <Link href="/(tabs)/Defualt">
-          <AntDesign name="github" size={34} />
+      <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+        <Link href="/(app)/(tabs)/Defualt">
+          <MaterialIcons name="run-circle" size={50} color="black" />
         </Link>
-        <Text style={{ fontSize: 33 }}>Username</Text>
+        <Text style={{ fontSize: 33 }}> hello 👋 {user.name}</Text>
       </View>
       <View
         style={{
@@ -31,7 +37,14 @@ export default function Header() {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Text style={{ color: 'white' }}>logo</Text>
+        <Image
+          source={{
+            uri: `${user.image}`,
+          }}
+          width={35}
+          height={35}
+          style={{ borderRadius: 150 }}
+        />
       </View>
     </View>
   );

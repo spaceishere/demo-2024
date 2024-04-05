@@ -1,34 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import axios, { AxiosResponse, AxiosError } from 'axios';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { create } from 'zustand';
-import { Ionicons, SimpleLineIcons } from '@expo/vector-icons';
-import Gyms from '../component/Gyms';
-import { useClientStore } from '../zustand/setClinet';
-import { useBookmarks } from '../zustand/useBookmarks';
-
-type ApiResponse = any;
+import { StyleSheet, View } from 'react-native';
+import Gyms from '../../component/Gyms';
+import { useClientStore } from '../../zustand/setClinet';
 
 export default function Home() {
-  const name = useClientStore((state) => state.name);
-  const change = useClientStore((state) => state.change);
-  const changeBack = useClientStore((state) => state.changeBack);
-
   return (
     <View style={styles.container}>
-      <TextInput
-        placeholder="search by name"
-        style={{
-          width: '83%',
-          height: 50,
-          borderWidth: 1,
-          paddingHorizontal: 20,
-          fontSize: 20,
-          borderRadius: 5,
-          marginVertical: 20,
-        }}
-        placeholderTextColor="black"
-      />
       <Gyms />
     </View>
   );
