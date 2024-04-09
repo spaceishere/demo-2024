@@ -33,5 +33,4 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-**/generated/**
 next-env.d.ts

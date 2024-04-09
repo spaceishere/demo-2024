@@ -6,13 +6,14 @@ import { Gym, useGetGymsQuery } from '@/graphql/generated';
 
 export default function GymDetail() {
   const { data: gyms } = useGetGymsQuery();
+
   const { id } = useGlobalSearchParams(); // Verify that 'id' is correctly retrieved
 
   const data = gyms?.getGyms.find((gym: any) => gym.id === id);
+  console.log(data?.postition);
 
   const xValue = Number(data?.postition[0]);
   const yValue = Number(data?.postition[1]);
-  console.log(data);
 
   if (!gyms) {
     return (

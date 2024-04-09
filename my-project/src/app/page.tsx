@@ -1,6 +1,12 @@
+"use client";
+
 import Link from "next/link";
-import {} from "@/graphql/generated";
+import { useState } from "react";
+
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <div className="w-full   px-[100px]  h-screen flex flex-col justify-center items-center gap-10" style={{ backgroundColor: "#090520" }}>
       <div className="text-[32px] text-[white]">Нэвтрэх</div>
@@ -9,6 +15,7 @@ const Login = () => {
           <p className="px-[20px] text-[white]">Цахим хаяг</p>
           <input
             className="shadow-2xl w-[300px] sm:w-[380px] h-[45px] outline-none rounded-full text-[20px] px-[20px] text-black"
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="••••••••••"
           />
         </div>
@@ -16,12 +23,13 @@ const Login = () => {
           <p className="px-[20px] text-[white]">Нууц үг</p>
           <input
             className="shadow-2xl w-[300px] sm:w-[380px] h-[45px] outline-none rounded-full text-[20px] px-[20px] text-black"
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••••"
           />
         </div>
 
         <div className="w-[100%] flex justify-between px-[10px] flex-col gap-6">
-          <Link href={"/signUp"}>
+          <Link href={"/SignUp"}>
             <p className="text-[white] ml-[10px] ">Шинэ хэрэглэгч бол энд дарна уу ?</p>
           </Link>
         </div>
