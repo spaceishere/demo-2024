@@ -20,33 +20,33 @@ export default function TabOneScreen(): React.ReactNode {
       />
       <View style={{ display: 'flex', gap: 25 }}>
         <View>
-          <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Name</Text>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#f0e59f' }}>Name</Text>
           <View
             style={{
               borderWidth: 1,
               width: 350,
               height: 50,
-              borderColor: 'gray',
+              borderColor: '#f0e59f',
               display: 'flex',
               justifyContent: 'center',
               paddingLeft: 15,
             }}>
-            <Text style={{ fontSize: 20 }}>{user.name}</Text>
+            <Text style={{ fontSize: 20, color: '#f0e59f' }}>{user.name}</Text>
           </View>
         </View>
         <View>
-          <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Email</Text>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#f0e59f' }}>Email</Text>
           <View
             style={{
               borderWidth: 1,
               width: 350,
               height: 50,
-              borderColor: 'gray',
+              borderColor: '#f0e59f',
               display: 'flex',
               justifyContent: 'center',
               paddingLeft: 15,
             }}>
-            <Text style={{ fontSize: 20 }}>{user.email}</Text>
+            <Text style={{ fontSize: 20, color: '#f0e59f' }}>{user.email}</Text>
           </View>
         </View>
       </View>
@@ -74,13 +74,14 @@ export default function TabOneScreen(): React.ReactNode {
             display: 'flex',
             alignItems: 'center',
             borderRadius: 8,
+            borderColor: '#f0e59f',
           }}
           onPress={() => {
             Alert.alert('log outed');
             logOut();
             router.push('../LoginClient');
           }}>
-          <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 20 }}>Log Out</Text>
+          <Text style={{ color: '#f0e59f', fontWeight: 'bold', fontSize: 20 }}>Log Out</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -89,6 +90,7 @@ export default function TabOneScreen(): React.ReactNode {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: 'black',
     flex: 1,
     width: '100%',
     height: '100%',

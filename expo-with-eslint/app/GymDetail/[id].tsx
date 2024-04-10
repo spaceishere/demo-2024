@@ -25,25 +25,24 @@ export default function GymDetail() {
 
   return (
     <ScrollView>
-      <View style={{ display: 'flex', gap: 10 }}>
-        <ImageBackground
-          source={{ uri: data?.thumbnail }}
-          resizeMode="cover"
-          style={styles.imageBackground}>
-          <Text style={styles.headerText}>hello kings</Text>
-        </ImageBackground>
-        <FlatList
-          data={data?.image}
-          keyExtractor={(item, index) => index.toString()}
-          horizontal={true}
-          renderItem={({ item }) => (
-            <View style={styles.imageContainer}>
-              <Image source={{ uri: item }} style={styles.image} />
-              <Text>lol</Text>
-            </View>
-          )}
-        />
-        <View style={styles.footerContainer}>
+      <View style={{ flex: 1, gap: 20 }}>
+        <View style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
+          <Text style={styles.footerTitle}>{data?.name} </Text>
+          <FlatList
+            data={data?.image}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal={true}
+            renderItem={({ item }) => (
+              <View style={styles.imageContainer}>
+                <Image source={{ uri: item }} style={styles.image} />
+              </View>
+            )}
+          />
+          <View style={styles.footerContainer}>
+            <Text style={styles.footerText}>{data?.title}</Text>
+          </View>
+        </View>
+        <View style={{ flex: 1, alignItems: 'center', gap: 20 }}>
           <MapView
             style={styles.map}
             initialRegion={{
@@ -58,11 +57,9 @@ export default function GymDetail() {
                 latitude: xValue || 0,
                 longitude: yValue || 0,
               }}
-              title={data?.name} // Changed from "lol" to use gym name
+              title={data?.name}
             />
           </MapView>
-          <Text style={styles.footerTitle}>{data?.name} </Text>
-          <Text style={styles.footerText}>{data?.title}</Text>
         </View>
       </View>
     </ScrollView>
@@ -70,26 +67,16 @@ export default function GymDetail() {
 }
 
 const styles = StyleSheet.create({
-  imageBackground: {
-    width: '100%',
-    height: 250,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  headerText: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 30,
-  },
   imageContainer: {
     flex: 1,
-    paddingLeft: 8,
+    paddingLeft: 18,
     width: 370,
     height: 200,
     borderRadius: 18,
   },
   image: {
+    borderWidth: 1,
+    borderColor: '#f0e59f',
     height: 200,
     width: '100%',
     justifyContent: 'space-between',
@@ -99,20 +86,26 @@ const styles = StyleSheet.create({
     display: 'flex',
   },
   footerContainer: {
+    width: '100%',
     alignItems: 'center', // Centers the footer content
-    marginVertical: 20, // Adds vertical space around the footer content
     display: 'flex',
-    gap: 40,
+    paddingHorizontal: 20,
   },
   footerTitle: {
+    color: '#f0e59f',
     fontWeight: 'bold',
-    fontSize: 40,
+    fontSize: 30,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    textAlign: 'center',
   },
   footerText: {
-    fontSize: 20, // Adds a specific font size for consistency
+    fontSize: 20,
+    color: '#f0e59f',
+    // Adds a specific font size for consistency
   },
   map: {
-    width: '100%',
-    height: 250, // Adjusted for better visibility
+    width: '90%',
+    height: 230, // Adjusted for better visibility
   },
 });

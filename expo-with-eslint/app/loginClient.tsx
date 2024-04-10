@@ -56,25 +56,32 @@ export default function LoginClient() {
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
-        <Text style={styles.header}>Login</Text>
-        <View style={{ width: '100%', alignItems: 'center', display: 'flex', gap: 15 }}>
+        <Text style={styles.header}>Нэвтрэх</Text>
+        <View
+          style={{
+            width: '100%',
+            alignItems: 'center',
+            display: 'flex',
+            gap: 15,
+            paddingBottom: 20,
+          }}>
           <TextInput
             style={styles.textInput}
             placeholder="example@gmai.com"
             onChangeText={(newText) => SetEmail(newText)}
-            placeholderTextColor="black"
+            placeholderTextColor="white"
           />
           <TextInput
             style={styles.textInput}
             placeholder="password"
             onChangeText={(newText) => setPassword(newText)}
-            placeholderTextColor="black"
+            placeholderTextColor="white"
           />
           <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-            <Text style={styles.buttonText}>Press Here</Text>
+            <Text style={styles.buttonText}> Үргэлжлүүлэх →</Text>
           </TouchableOpacity>
           <Link href="/SignUpClient">
-            <Text>new user?</Text>
+            <Text style={{ color: 'white' }}> Шинэ хэрэглэгч бол энд дарна уу ?</Text>
           </Link>
         </View>
       </View>
@@ -98,15 +105,18 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 50,
     fontWeight: 'bold',
+    paddingBottom: 20,
+    color: 'white',
   },
   textInput: {
     width: '70%',
     height: 50,
-    borderColor: 'black',
+    borderColor: 'white',
     borderWidth: 1,
     paddingLeft: 15,
     paddingRight: 15,
     borderRadius: 10,
+    color: 'white',
   },
   button: {
     alignItems: 'center',

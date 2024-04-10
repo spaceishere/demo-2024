@@ -8,7 +8,7 @@ export default function Gyms() {
   const { data: gyms } = useGetGymsQuery();
   const router = useRouter();
   const { bookmark, isBookmarked } = useBookmarks();
-
+  const pendingGyms = gyms?.getGyms.filter((gym: any) => gym.pending === true);
   if (!gyms) {
     return (
       <View
@@ -23,11 +23,25 @@ export default function Gyms() {
       </View>
     );
   }
+  if (pendingGyms?.length === 0) {
+    return (
+      <View
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Text>dont have a gym</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={gyms?.getGyms as Gym[]}
+        data={pendingGyms as Gym[]}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => {
           const isAdded: any = isBookmarked(item.id);
@@ -40,7 +54,7 @@ export default function Gyms() {
                 })
               }
               style={styles.itemContainer}>
-              <Image style={styles.image} source={{ uri: item?.image[0] }} />
+              <Image style={styles.image} source={{ uri: item?.thumbnail }} />
               <View style={styles.textContainer}>
                 <Text style={styles.gymName}>{item.name}</Text>
                 <Text style={styles.itemText}>{item.name.slice(0, 150)}</Text>
@@ -71,13 +85,13 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16,
     borderWidth: 2,
+    borderColor: '#f0e59f',
     padding: 7,
     borderRadius: 7,
-    borderColor: 'black',
   },
   image: {
-    width: 150,
-    height: 180,
+    width: 180,
+    height: 200,
     borderRadius: 10,
   },
   textContainer: {
@@ -88,13 +102,15 @@ const styles = StyleSheet.create({
   },
   gymName: {
     fontSize: 30,
+    color: '#f0e59f',
     fontWeight: 'bold',
   },
   itemText: {
-    color: 'black',
+    color: '#f0e59f',
   },
   addButton: {
     borderWidth: 1,
+    borderColor: '#f0e59f',
     height: 30,
     width: 100,
     justifyContent: 'center',
@@ -104,5 +120,6 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     fontSize: 18,
+    color: '#f0e59f',
   },
 });

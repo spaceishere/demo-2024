@@ -29,33 +29,33 @@ export default function SignUpClient() {
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
-        <Text style={styles.header}>Sign Up</Text>
+        <Text style={styles.header}>Бүртгүүлэх</Text>
         <TextInput
           style={styles.textInput}
-          placeholder="Enter your username"
+          placeholder="Нэр"
           onChangeText={(newText) => SetUserName(newText)}
-          placeholderTextColor="black"
+          placeholderTextColor="white"
         />
         <TextInput
           style={styles.textInput}
-          placeholder="example@gmai.com"
+          placeholder="И-мэйл хаяг"
           onChangeText={(newText) => SetEmail(newText)}
-          placeholderTextColor="black"
+          placeholderTextColor="white"
         />
         <TextInput
           style={styles.textInput}
-          placeholder="password"
+          placeholder="Нууц үг"
           onChangeText={(newText) => setPassword(newText)}
-          placeholderTextColor="black"
+          placeholderTextColor="white"
         />
         <TextInput
           style={styles.textInput}
-          placeholder="confirm password"
+          placeholder="Нууц үг баталгаажуулах"
           onChangeText={(newText) => setConfirmPassword(newText)}
-          placeholderTextColor="black"
+          placeholderTextColor="white"
         />
         <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-          <Text style={styles.buttonText}>Press Here</Text>
+          <Text style={styles.buttonText}>Үргэлжлүүлэх →</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -73,21 +73,24 @@ const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 5,
+    gap: 1,
   },
   header: {
     fontSize: 50,
     fontWeight: 'bold',
+    paddingBottom: 20,
+    color: 'white',
   },
   textInput: {
     width: '70%',
     height: 50,
-    borderColor: 'black',
+    borderColor: 'white',
     borderWidth: 1,
     paddingLeft: 15,
     paddingRight: 15,
     borderRadius: 10,
     marginBottom: 20,
+    color: 'white',
     // Added to create space between inputs
   },
   button: {

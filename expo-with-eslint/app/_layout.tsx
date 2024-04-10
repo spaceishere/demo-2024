@@ -12,7 +12,7 @@ const RootLayoutNav: React.FC = () => {
   });
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }}>
+    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: 'black' }}>
       <ApolloProvider client={client}>
         <Header />
         <Slot />

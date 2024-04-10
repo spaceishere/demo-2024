@@ -32,8 +32,9 @@ export default function App() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          backgroundColor: 'black',
         }}>
-        <Text>You dont have saved gym</Text>
+        <Text style={{ color: 'white' }}>You dont have saved gym</Text>
       </View>
     );
   }
@@ -76,7 +77,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: 'black',
   },
   itemContainer: {
     flexDirection: 'row',
@@ -87,28 +88,34 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     padding: 7,
     borderRadius: 7,
-    borderColor: 'black',
+    borderColor: '#f0e59f',
   },
   image: {
-    width: 150,
-    height: 180,
+    width: 190,
+    height: 220,
     borderRadius: 10,
+    borderColor: '#f0e59f',
+    borderWidth: 1,
+    marginLeft: 10,
   },
   textContainer: {
     justifyContent: 'space-between',
     paddingVertical: 10,
     paddingLeft: 30,
     width: '50%',
+    marginRight: 10,
   },
   gymName: {
     fontSize: 30,
     fontWeight: 'bold',
+    color: '#f0e59f',
   },
   itemText: {
-    color: 'black',
+    color: '#f0e59f',
   },
   addButton: {
     borderWidth: 1,
+    borderColor: '#f0e59f',
     height: 30,
     paddingHorizontal: 30,
     justifyContent: 'center',
@@ -118,5 +125,6 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     fontSize: 18,
+    color: '#f0e59f',
   },
 });
